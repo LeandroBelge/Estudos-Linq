@@ -1,0 +1,6 @@
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\AluraTunes.exe.config
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\AluraTunes.exe
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\AluraTunes.pdb
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\obj\Debug\AluraTunes.csprojResolveAssemblyReference.cache
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\obj\Debug\AluraTunes.exe
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\obj\Debug\AluraTunes.pdb
