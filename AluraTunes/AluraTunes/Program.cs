@@ -11,26 +11,22 @@ namespace AluraTunes
     {
         static void Main(string[] args)
         {
-            //Listar nome de modelos e seus fabricantes       
-            XElement xml =  XElement.Load(@"..\..\Data\Automoveis.xml");
+            XElement xml =  XElement.Load(@"..\..\Data\AluraTunes.xml");
 
-            //var query = from m in xml.Element("Modelos").Elements("Modelo")
-            //            join f in xml.Element("Fabricantes").Elements("Fabricante")
-            //                on m.Element("FabricanteId").Value equals f.Element("FabricanteId").Value
-            //            select new
-            //                {
-            //                    modelo = m.Element("Nome").Value,
-            //                    fabricante = f.Element("Nome").Value
-            //                };
-
-            var query = from f in xml.Element("Fabricantes").Elements("Fabricante")
-                        select f;
-
+            var query = from m in xml.Element("Musicas").Elements("Musica")
+                        join g in xml.Element("Generos").Elements("Genero")
+                            on m.Element("GeneroId").Value equals g.Element("GeneroId").Value
+                        select new
+                            {
+                                musicaId = m.Element("MusicaId").Value,
+                                musicaNome = m.Element("Nome").Value,
+                                generoNome = g.Element("Nome").Value
+                            };
             foreach (var item in query)
             {
-                Console.WriteLine("{0}\t{1}", item.Element("FabricanteId").Value, item.Element("Nome").Value);
+                Console.WriteLine("{0}\t{1}\t{2}", item.musicaId, item.musicaNome, item.generoNome);
             }
-
+          
             Console.ReadKey();
         }
     }
