@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SistemasTecsystem>
+  <Sistemas>
+    <Sistema>
+      <Id>01</Id>
+      <Nome>Facture-e</Nome>
+      <CategoriaId>02</CategoriaId>
+    </Sistema>
+    <Sistema>
+      <Id>02</Id>
+      <Nome>Monnae</Nome>
+      <CategoriaId>02</CategoriaId>
+    </Sistema>
+    <Sistema>
+      <Id>03</Id>
+      <Nome>School</Nome>
+      <CategoriaId>01</CategoriaId>
+    </Sistema>
+    <Sistema>
+      <Id>04</Id>
+      <Nome>Geoserviços</Nome>
+      <CategoriaId>01</CategoriaId>
+    </Sistema>
+    <Sistema>
+      <Id>05</Id>
+      <Nome>Geagro</Nome>
+      <CategoriaId>01</CategoriaId>
+    </Sistema>
+  </Sistemas>
+  <Categorias>
+    <Categoria>
+      <Id>01</Id>
+      <Nome>Área pública</Nome>
+    </Categoria>
+    <Categoria>
+      <Id>02</Id>
+      <Nome>Área privada</Nome>
+    </Categoria>
+  </Categorias>
+</SistemasTecsystem>
