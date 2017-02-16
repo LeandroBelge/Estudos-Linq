@@ -1,10 +1,10 @@
-﻿using System;
+﻿using AluraTunes.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.Xml;
 
 namespace AluraTunes
 {
@@ -12,25 +12,28 @@ namespace AluraTunes
     {
         static void Main(string[] args)
         {
-            //Listar todos os sistemas da Tecsystem informando seu Id, Nome e o nome da sua categoria.
-            XElement xml = XElement.Load(@"..\..\Data\SistemasTecsystem.xml");
-
-            var query = from s in xml.Element("Sistemas").Elements("Sistema")
-                         join c in xml.Element("Categorias").Elements("Categoria")
-                             on s.Element("CategoriaId").Value equals c.Element("Id").Value
-                         select new
-                             {
-                                 sistemaId = s.Element("Id").Value,
-                                 sistemaNome = s.Element("Nome").Value,
-                                 categoriaNome = c.Element("Nome").Value
-                             };
-
-            foreach (var item in query)
+            using (var contexto = new AluraTunesEntities())
             {
-                Console.WriteLine("{0}\t{1}\t{2}", item.sistemaId, item.sistemaNome, item.categoriaNome);
+                //Linq com sintaxe de método
+                var query = contexto.Artistas.Where(a => a.Nome.Contains("Led"));
+
+                foreach (var item in query)
+                {
+                    Console.WriteLine("{0}\t{1}", item.ArtistaId, item.Nome);
+                }
+
+                Console.WriteLine();
+                //Linq com sintaxe de consulta
+                var query2 = from a in contexto.Artistas
+                             where a.Nome.Contains("Led")
+                             select a;
+
+                foreach (var item in query2)
+                {
+                    Console.WriteLine("{0}\t{1}", item.ArtistaId, item.Nome);
+                }
             }
-            
-           
+
             Console.ReadKey();
         }
     }

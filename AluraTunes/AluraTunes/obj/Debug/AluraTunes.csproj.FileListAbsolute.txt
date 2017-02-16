@@ -4,3 +4,11 @@ D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\AluraTunes.pdb
 D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\obj\Debug\AluraTunes.csprojResolveAssemblyReference.cache
 D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\obj\Debug\AluraTunes.exe
 D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\obj\Debug\AluraTunes.pdb
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\AluraTunes.mdf
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\AluraTunes_log.ldf
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\Data\AluraTunes.mdf
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\Data\AluraTunes_log.ldf
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\EntityFramework.dll
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\EntityFramework.SqlServer.dll
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\EntityFramework.xml
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\EntityFramework.SqlServer.xml
