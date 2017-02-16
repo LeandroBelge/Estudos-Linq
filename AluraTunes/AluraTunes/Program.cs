@@ -32,6 +32,16 @@ namespace AluraTunes
                 {
                     Console.WriteLine("{0}\t{1}", item.ArtistaId, item.Nome);
                 }
+
+                Console.WriteLine();
+                
+                var query3 = from g in contexto.Generos
+                             where g.Nome == "Rock"
+                             select g;
+                foreach (var item in query3)
+                {
+                    Console.WriteLine("{0}\t{1}", item.Nome, item.GeneroId);
+                }
             }
 
             Console.ReadKey();
