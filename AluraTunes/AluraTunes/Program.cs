@@ -14,15 +14,13 @@ namespace AluraTunes
         {
             using (var contexto = new AluraTunesEntities())
             {
-                //Utilizando Join
+                //Relacionamento sem Join
                 var query = from album in contexto.Albums
-                            join artista in contexto.Artistas
-                                on album.ArtistaId equals artista.ArtistaId
-                            where artista.Nome.Contains("Led")
+                            where album.Artista.Nome.Contains("Led")
                             select new
                             {
-                                artistaId = artista.ArtistaId,
-                                artistaNome = artista.Nome,
+                                artistaId = album.ArtistaId,
+                                artistaNome = album.Artista.Nome,
                                 albumTitulo =  album.Titulo
                             };
                 foreach (var item in query)
