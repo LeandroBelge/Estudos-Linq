@@ -14,21 +14,22 @@ namespace AluraTunes
         {
             using (var contexto = new AluraTunesEntities())
             {
-                //Relacionamento sem Join
                 var query = from album in contexto.Albums
                             where album.Artista.Nome.Contains("Led")
-                            select new
+                            select new 
                             {
-                                artistaId = album.ArtistaId,
-                                artistaNome = album.Artista.Nome,
-                                albumTitulo =  album.Titulo
+                                albumTitulo = album.Titulo,
+                                artistaNome = album.Artista.Nome
                             };
+
+                //Modificando a consulta.
+                query = query.Where(a => a.albumTitulo.Contains("Graffit"));
+
                 foreach (var item in query)
                 {
-                    Console.WriteLine("{0}\t{1}\t{2}", item.artistaId, item.artistaNome, item.albumTitulo);
+                    Console.WriteLine("{0}\t{1}", item.albumTitulo.PadRight(50), item.artistaNome);
                 }
             }
-
             Console.ReadKey();
         }
     }
