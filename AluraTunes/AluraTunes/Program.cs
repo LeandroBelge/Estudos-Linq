@@ -14,20 +14,18 @@ namespace AluraTunes
         {
             using (var contexto = new AluraTunesEntities())
             {
-                string nomeAlbum = "Presence";
-                var query = from faixa in contexto.Faixas
-                            where faixa.Album.Artista.Nome.Contains("Led")
-                            && (!string.IsNullOrEmpty(nomeAlbum) ? faixa.Album.Titulo.Contains(nomeAlbum): true)
-                            orderby faixa.Album.Titulo, faixa.Nome
-                            select new 
+                var query = from nf in contexto.NotaFiscals
+                            orderby nf.Total descending, nf.Cliente.PrimeiroNome
+                            select new
                             {
-                                faixaNome = faixa.Nome,
-                                albumTitulo = faixa.Album.Titulo
+                                nfdata = nf.DataNotaFiscal,
+                                nfCliente = nf.Cliente.PrimeiroNome + " " + nf.Cliente.Sobrenome,
+                                nfTotal = nf.Total
                             };
 
                 foreach (var item in query)
                 {
-                    Console.WriteLine("{0}\t{1}", item.albumTitulo.PadRight(50), item.faixaNome);
+                    Console.WriteLine("{0}\t{1}\t{2}", item.nfdata, item.nfCliente, item.nfTotal);
                 }
             }
             Console.ReadKey();
