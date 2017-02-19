@@ -14,8 +14,10 @@ namespace AluraTunes
         {
             using (var contexto = new AluraTunesEntities())
             {
+                string nomeAlbum = "Presence";
                 var query = from faixa in contexto.Faixas
                             where faixa.Album.Artista.Nome.Contains("Led")
+                            && (!string.IsNullOrEmpty(nomeAlbum) ? faixa.Album.Titulo.Contains(nomeAlbum): true)
                             orderby faixa.Album.Titulo, faixa.Nome
                             select new 
                             {
