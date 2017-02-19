@@ -16,14 +16,12 @@ namespace AluraTunes
             {
                 var query = from faixa in contexto.Faixas
                             where faixa.Album.Artista.Nome.Contains("Led")
+                            orderby faixa.Album.Titulo, faixa.Nome
                             select new 
                             {
                                 faixaNome = faixa.Nome,
                                 albumTitulo = faixa.Album.Titulo
                             };
-
-                //Ordenação
-                query = query.OrderBy(o => o.albumTitulo).ThenBy(o => o.faixaNome);
 
                 foreach (var item in query)
                 {
