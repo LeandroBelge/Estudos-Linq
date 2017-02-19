@@ -15,17 +15,15 @@ namespace AluraTunes
             using (var contexto = new AluraTunesEntities())
             {
                 var query = from nf in contexto.NotaFiscals
-                            orderby nf.Total descending, nf.Cliente.PrimeiroNome
-                            select new
-                            {
-                                nfdata = nf.DataNotaFiscal,
-                                nfCliente = nf.Cliente.PrimeiroNome + " " + nf.Cliente.Sobrenome,
-                                nfTotal = nf.Total
-                            };
+                            select nf;
 
-                foreach (var item in query)
+                var query2 = query;
+
+                query2 = query2.OrderByDescending(n => n.DataNotaFiscal);
+
+                foreach (var item in query2)
                 {
-                    Console.WriteLine("{0}\t{1}\t{2}", item.nfdata, item.nfCliente, item.nfTotal);
+                    Console.WriteLine("{0}\t{1}\t{2}", item.DataNotaFiscal, item.Cliente.PrimeiroNome, item.Total);
                 }
             }
             Console.ReadKey();
