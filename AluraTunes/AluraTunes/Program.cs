@@ -14,17 +14,22 @@ namespace AluraTunes
         {
             using (var contexto = new AluraTunesEntities())
             {
-                //Utilizando o método Sum();
+                //groupby e comando let
                 var query = from inf in contexto.ItemNotaFiscals
                             where inf.Faixa.Album.Artista.Nome == "Led Zeppelin"
+                            group inf by inf.Faixa.Album into agrupado
+                            let vendasPorAlbum = agrupado.Sum(a => (a.Quantidade * a.PrecoUnitario))//A variável assume a expressão lambida como valor através do comando "let"
+                            orderby  vendasPorAlbum descending
                             select new 
-                            {                    
-                                totaItem = (inf.Quantidade * inf.PrecoUnitario)
+                            {    
+                                tituloAlbum = agrupado.Key.Titulo,
+                                total = vendasPorAlbum
                             };
-                
-                var totalArtista = query.Sum(t => t.totaItem);
-                
-                Console.WriteLine("Total do artista {0}", totalArtista);
+
+                foreach (var item in query)
+                {
+                    Console.WriteLine("{0}\t{1}", item.tituloAlbum.PadRight(40), item.total);
+                }
             }
             Console.ReadKey();
         }
