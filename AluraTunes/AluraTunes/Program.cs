@@ -12,19 +12,22 @@ namespace AluraTunes
     {
         static void Main(string[] args)
         {
+            //Linq to entities count
             using (var contexto = new AluraTunesEntities())
             {
-                var query = from nf in contexto.NotaFiscals
-                            select nf;
+                //Contando o resultado utilizando linq sintaxe de consulta
+                var query = from f in contexto.Faixas
+                            where f.Album.Artista.Nome == "Led Zeppelin"
+                            select f;
+                var quantidade = query.Count();
+                Console.WriteLine("Led Zeppelin tem {0} músicas no banco de dados.", quantidade);
 
-                var query2 = query;
+                Console.WriteLine();
 
-                query2 = query2.OrderByDescending(n => n.DataNotaFiscal);
+                //Contando o resultado utilizando linq com sintaxe de método
+                var quantidade2 = contexto.Faixas.Count(c => c.Album.Artista.Nome == "Led Zeppelin");
 
-                foreach (var item in query2)
-                {
-                    Console.WriteLine("{0}\t{1}\t{2}", item.DataNotaFiscal, item.Cliente.PrimeiroNome, item.Total);
-                }
+                Console.WriteLine("Led Zeppelin tem {0} músicas no banco de dados.", quantidade2);
             }
             Console.ReadKey();
         }
