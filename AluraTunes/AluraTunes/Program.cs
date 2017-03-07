@@ -14,6 +14,8 @@ namespace AluraTunes
         {
             using (var contexto = new AluraTunesEntities())
             {
+                contexto.Database.Log = Console.WriteLine;
+
                 var maiorVenda = contexto.NotaFiscals.Max(nf => nf.Total);
                 var menorVenda = contexto.NotaFiscals.Min(nf => nf.Total);
                 var vendaMedia = contexto.NotaFiscals.Average(nf => nf.Total);
