@@ -14,21 +14,13 @@ namespace AluraTunes
         {
             using (var contexto = new AluraTunesEntities())
             {
-                //groupby e comando let
-                var query = from inf in contexto.Albums
-                            group inf by inf.Artista into artista
-                            orderby artista.Key.Nome ascending
-                            select new
-                            {
-                                nome = artista.Key.Nome,
-                                qtdeAlbuns = artista.Key.Albums.Count()
-                            };
-                            
+                var maiorVenda = contexto.NotaFiscals.Max(nf => nf.Total);
+                var menorVenda = contexto.NotaFiscals.Min(nf => nf.Total);
+                var vendaMedia = contexto.NotaFiscals.Average(nf => nf.Total);
 
-                foreach (var item in query)
-                {
-                    Console.WriteLine("{0}\t{1}", item.nome.PadRight(100), item.qtdeAlbuns);
-                }
+                Console.WriteLine("A maior venda é de R$: " + maiorVenda);
+                Console.WriteLine("A menor venda é de R$: " + menorVenda);
+                Console.WriteLine("A venda média é de R$: " + vendaMedia);
             }
             Console.ReadKey();
         }
