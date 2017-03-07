@@ -23,6 +23,20 @@ namespace AluraTunes
                 Console.WriteLine("A maior venda é de R$: " + maiorVenda);
                 Console.WriteLine("A menor venda é de R$: " + menorVenda);
                 Console.WriteLine("A venda média é de R$: " + vendaMedia);
+
+                var vendas = (from nf in contexto.NotaFiscals
+                             group nf by 1 into agrupado
+                             select new 
+                             { 
+                                 maiorVenda = agrupado.Max(nf => nf.Total),
+                                 menorVenda = agrupado.Min(nf => nf.Total),
+                                 vendaMedia = agrupado.Average(nf => nf.Total)
+                             }).Single();
+
+                Console.WriteLine("A maior venda é de R$: " + vendas.maiorVenda);
+                Console.WriteLine("A menor venda é de R$: " + vendas.menorVenda);
+                Console.WriteLine("A venda média é de R$: " + vendas.vendaMedia);
+
             }
             Console.ReadKey();
         }
