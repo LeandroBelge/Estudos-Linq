@@ -16,27 +16,18 @@ namespace AluraTunes
             {
                 contexto.Database.Log = Console.WriteLine;
 
-                var maiorVenda = contexto.NotaFiscals.Max(nf => nf.Total);
-                var menorVenda = contexto.NotaFiscals.Min(nf => nf.Total);
                 var vendaMedia = contexto.NotaFiscals.Average(nf => nf.Total);
+                Console.WriteLine("Venda média: {0}", vendaMedia);
 
-                Console.WriteLine("A maior venda é de R$: " + maiorVenda);
-                Console.WriteLine("A menor venda é de R$: " + menorVenda);
-                Console.WriteLine("A venda média é de R$: " + vendaMedia);
+                var query = from nf in contexto.NotaFiscals
+                            orderby nf.Total
+                            select nf.Total;
 
-                var vendas = (from nf in contexto.NotaFiscals
-                             group nf by 1 into agrupado
-                             select new 
-                             { 
-                                 maiorVenda = agrupado.Max(nf => nf.Total),
-                                 menorVenda = agrupado.Min(nf => nf.Total),
-                                 vendaMedia = agrupado.Average(nf => nf.Total)
-                             }).Single();
+                var contagem = query.Count();
+                var elementoCentral = query.Skip(contagem / 2).First();
+                var mediana = elementoCentral;
 
-                Console.WriteLine("A maior venda é de R$: " + vendas.maiorVenda);
-                Console.WriteLine("A menor venda é de R$: " + vendas.menorVenda);
-                Console.WriteLine("A venda média é de R$: " + vendas.vendaMedia);
-
+                Console.WriteLine("Mediana: {0}", mediana);
             }
             Console.ReadKey();
         }
