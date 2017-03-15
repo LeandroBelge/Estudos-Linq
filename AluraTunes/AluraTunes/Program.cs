@@ -1,5 +1,6 @@
 ﻿using AluraTunes.Data;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -15,52 +16,37 @@ namespace AluraTunes
         {
             using (var contexto = new AluraTunesEntities())
             {
-                //contexto.Database.Log = Console.WriteLine;
+                //Recuperar os funcionários em ordem alfabética
+                var query = from f in contexto.Funcionarios
+                            orderby f.PrimeiroNome 
+                            select f;
+                //imprime a lista de funcinários
+                foreach (var item in query)
+                {
+                    Console.WriteLine(item.PrimeiroNome);
+                }
 
-                var vendaMedia = contexto.NotaFiscals.Average(nf => nf.Total);
-                Console.WriteLine("Venda média: {0}", vendaMedia);
+                Console.WriteLine();
+                //Imprime o primeiro funcionário da lista
+                var primeiroLista = query.First().PrimeiroNome;
 
-                var query = from nf in contexto.NotaFiscals
-                            select nf.Total;
+                Console.WriteLine(primeiroLista);
 
-                var mediana = Mediana(query);
+                Console.WriteLine();
+                //Imprime o segundo funcionário da lista utilizando o métod extendido Second.
+                var segundoLista = query.Second().PrimeiroNome;
 
-                Console.WriteLine("Mediana: {0}", mediana);
-
-                var vendaMediana = contexto.NotaFiscals.Mediana(nf => nf.Total);
-                Console.WriteLine("Mediana com método de extensão: {0}", vendaMediana);
-
+                Console.WriteLine(segundoLista);
             }
             Console.ReadKey();
         }
-
-        private static decimal Mediana(IQueryable<decimal> query)
-        {
-            
-            var contagem = query.Count();
-
-            query = query.OrderBy(nf => nf);
-            var elementoCentral_1 = query.Skip(contagem / 2).First();
-            var elementoCentral_2 = query.Skip((contagem - 1) / 2).First();
-            
-            var mediana = (elementoCentral_1 + elementoCentral_2) / 2;
-            return mediana;
-        }   
     }
+
     static class LinkExtensions
     {
-        public static decimal Mediana<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, decimal>> selector)
+        public static TSource Second<TSource>(this IEnumerable<TSource> source)
         {
-            var contagem = source.Count();
-
-            var funcSelector = selector.Compile();
-            var query = source.Select(selector).OrderBy(nf => nf);
-
-            var elementoCentral_1 = query.Skip(contagem / 2).First();
-            var elementoCentral_2 = query.Skip((contagem - 1) / 2).First();
-
-            var mediana = (elementoCentral_1 + elementoCentral_2) / 2;
-            return mediana;
+            return source.Skip(1).First();
         }
-    }
+    }   
 }
