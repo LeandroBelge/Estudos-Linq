@@ -23,13 +23,21 @@ namespace AluraTunes
                             orderby nf.Total
                             select nf.Total;
 
-                var contagem = query.Count();
-                var elementoCentral = query.Skip(contagem / 2).First();
-                var mediana = elementoCentral;
+                var mediana = Mediana(query);
 
                 Console.WriteLine("Mediana: {0}", mediana);
             }
             Console.ReadKey();
+        }
+
+        private static decimal Mediana(IQueryable<decimal> query)
+        {
+            var contagem = query.Count();
+            var elementoCentral_1 = query.Skip(contagem / 2).First();
+            var elementoCentral_2 = query.Skip((contagem - 1) / 2).First();
+            
+            var mediana = (elementoCentral_1 + elementoCentral_2) / 2;
+            return mediana;
         }
     }
 }
