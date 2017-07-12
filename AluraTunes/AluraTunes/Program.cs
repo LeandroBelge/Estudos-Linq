@@ -14,39 +14,49 @@ namespace AluraTunes
     {
         static void Main(string[] args)
         {
+            const int TAMANHO_PAGINA = 10;
+
             using (var contexto = new AluraTunesEntities())
             {
-                //Recuperar os funcionários em ordem alfabética
-                var query = from f in contexto.Funcionarios
-                            orderby f.PrimeiroNome 
-                            select f;
-                //imprime a lista de funcinários
-                foreach (var item in query)
+                var numeroNotasFiscais = contexto.NotaFiscals.Count();
+
+                var numeroPaginas = Math.Ceiling(Convert.ToDecimal(numeroNotasFiscais / TAMANHO_PAGINA));
+
+                for (int i = 1; i <= numeroPaginas; i++)
                 {
-                    Console.WriteLine(item.PrimeiroNome);
+                    ImprimirPagina(TAMANHO_PAGINA, contexto, i);   
                 }
-
-                Console.WriteLine();
-                //Imprime o primeiro funcionário da lista
-                var primeiroLista = query.First().PrimeiroNome;
-
-                Console.WriteLine(primeiroLista);
-
-                Console.WriteLine();
-                //Imprime o segundo funcionário da lista utilizando o métod extendido Second.
-                var segundoLista = query.Second().PrimeiroNome;
-
-                Console.WriteLine(segundoLista);
+                Console.ReadKey();
             }
-            Console.ReadKey();
+        }
+
+        private static void ImprimirPagina(int TAMANHO_PAGINA, AluraTunesEntities contexto, int numeroPagina)
+        {
+            var query =
+                from nf in contexto.NotaFiscals
+                orderby nf.NotaFiscalId
+                select new
+                {
+                    Numero = nf.NotaFiscalId,
+                    Data = nf.DataNotaFiscal,
+                    Cliente = nf.Cliente.PrimeiroNome + " " + nf.Cliente.Sobrenome,
+                    Total = nf.Total
+
+                };
+
+
+            int numeroDePulos = (numeroPagina - 1) * TAMANHO_PAGINA;
+
+            query = query.Skip(numeroDePulos);//Pular n linhas do resultado
+
+            query = query.Take(TAMANHO_PAGINA);//Pegar n linhas de resultado
+
+            Console.WriteLine("Número da página: {0}", numeroPagina);
+
+            foreach (var nf in query)
+            {
+                Console.WriteLine("{0}\t{1}\t{2}\t{3}", nf.Numero, nf.Data, nf.Cliente, nf.Total);
+            }
         }
     }
-
-    static class LinkExtensions
-    {
-        public static TSource Second<TSource>(this IEnumerable<TSource> source)
-        {
-            return source.Skip(1).First();
-        }
-    }   
 }
