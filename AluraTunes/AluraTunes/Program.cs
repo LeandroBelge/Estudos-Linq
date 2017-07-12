@@ -14,49 +14,33 @@ namespace AluraTunes
     {
         static void Main(string[] args)
         {
-            const int TAMANHO_PAGINA = 10;
-
+         
             using (var contexto = new AluraTunesEntities())
             {
-                var numeroNotasFiscais = contexto.NotaFiscals.Count();
+                var queryMedia = contexto.NotaFiscals.Average(n => n.Total);
 
-                var numeroPaginas = Math.Ceiling(Convert.ToDecimal(numeroNotasFiscais / TAMANHO_PAGINA));
+                var query =
+                    from nf in contexto.NotaFiscals
+                    where nf.Total > queryMedia//Subconsulta
+                    orderby nf.Total descending
+                    select new
+                    {
+                        Numero =  nf.NotaFiscalId,
+                        Data = nf.DataNotaFiscal,
+                        Cliente = nf.Cliente.PrimeiroNome + " " + nf.Cliente.Sobrenome,
+                        Valor = nf.Total
+                    };
 
-                for (int i = 1; i <= numeroPaginas; i++)
+                foreach (var notaFiscal in query)
                 {
-                    ImprimirPagina(TAMANHO_PAGINA, contexto, i);   
+                    Console.WriteLine("{0}\t{1}\t{2}\t{3}", notaFiscal.Numero, notaFiscal.Data, notaFiscal.Cliente, notaFiscal.Valor);
                 }
-                Console.ReadKey();
+                
+                Console.WriteLine("A média é {0}", queryMedia);
             }
+            
+            Console.ReadKey();
         }
 
-        private static void ImprimirPagina(int TAMANHO_PAGINA, AluraTunesEntities contexto, int numeroPagina)
-        {
-            var query =
-                from nf in contexto.NotaFiscals
-                orderby nf.NotaFiscalId
-                select new
-                {
-                    Numero = nf.NotaFiscalId,
-                    Data = nf.DataNotaFiscal,
-                    Cliente = nf.Cliente.PrimeiroNome + " " + nf.Cliente.Sobrenome,
-                    Total = nf.Total
-
-                };
-
-
-            int numeroDePulos = (numeroPagina - 1) * TAMANHO_PAGINA;
-
-            query = query.Skip(numeroDePulos);//Pular n linhas do resultado
-
-            query = query.Take(TAMANHO_PAGINA);//Pegar n linhas de resultado
-
-            Console.WriteLine("Número da página: {0}", numeroPagina);
-
-            foreach (var nf in query)
-            {
-                Console.WriteLine("{0}\t{1}\t{2}\t{3}", nf.Numero, nf.Data, nf.Cliente, nf.Total);
-            }
-        }
     }
 }
