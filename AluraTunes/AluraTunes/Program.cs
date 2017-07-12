@@ -17,28 +17,34 @@ namespace AluraTunes
          
             using (var contexto = new AluraTunesEntities())
             {
-                var queryMedia = contexto.NotaFiscals.Average(n => n.Total);
 
-                var query =
-                    from nf in contexto.NotaFiscals
-                    where nf.Total > queryMedia//Subconsulta
-                    orderby nf.Total descending
-                    select new
-                    {
-                        Numero =  nf.NotaFiscalId,
-                        Data = nf.DataNotaFiscal,
-                        Cliente = nf.Cliente.PrimeiroNome + " " + nf.Cliente.Sobrenome,
-                        Valor = nf.Total
+                var faixasQuery =
+                    from f in contexto.Faixas
+                    where f.ItemNotaFiscals.Count() > 0 //Filtro para pegar apenas itens de nota fiscal com alguma informação.
+                    let TotalDeVendas = f.ItemNotaFiscals.Sum(i => (i.Quantidade * i.PrecoUnitario))//Variável interna da consulta com projeção de um objeto
+                    orderby TotalDeVendas descending
+                    select new { 
+                        f.FaixaId,
+                        f.Nome,
+                        Total = TotalDeVendas
                     };
 
-                foreach (var notaFiscal in query)
-                {
-                    Console.WriteLine("{0}\t{1}\t{2}\t{3}", notaFiscal.Numero, notaFiscal.Data, notaFiscal.Cliente, notaFiscal.Valor);
-                }
+                var ProdutoMaisVendido = faixasQuery.First();
+		        Console.WriteLine("{0}\t{1}\t{2}", ProdutoMaisVendido.FaixaId, ProdutoMaisVendido.Nome, ProdutoMaisVendido.Total);
                 
-                Console.WriteLine("A média é {0}", queryMedia);
+                //Recuperar quais clientes compraram a faixa de maior venda.
+                var query =
+                    from inf in contexto.ItemNotaFiscals
+                    where inf.FaixaId == ProdutoMaisVendido.FaixaId
+                    select new
+                    {
+                        NomeCliente = inf.NotaFiscal.Cliente.PrimeiroNome + " " + inf.NotaFiscal.Cliente.Sobrenome
+                    };
+                foreach (var cliente in query)
+                {
+                    Console.WriteLine(cliente.NomeCliente);
+                }
             }
-            
             Console.ReadKey();
         }
 
