@@ -14,35 +14,22 @@ namespace AluraTunes
     {
         static void Main(string[] args)
         {
-         
+            var nomeDaMusica = "Smells Like Teen Spirit";
             using (var contexto = new AluraTunesEntities())
             {
-
-                var faixasQuery =
-                    from f in contexto.Faixas
-                    where f.ItemNotaFiscals.Count() > 0 //Filtro para pegar apenas itens de nota fiscal com alguma informação.
-                    let TotalDeVendas = f.ItemNotaFiscals.Sum(i => (i.Quantidade * i.PrecoUnitario))//Variável interna da consulta com projeção de um objeto
-                    orderby TotalDeVendas descending
-                    select new { 
-                        f.FaixaId,
-                        f.Nome,
-                        Total = TotalDeVendas
-                    };
-
-                var ProdutoMaisVendido = faixasQuery.First();
-		        Console.WriteLine("{0}\t{1}\t{2}", ProdutoMaisVendido.FaixaId, ProdutoMaisVendido.Nome, ProdutoMaisVendido.Total);
+                var faixaIds = contexto.Faixas.Where(f => f.Nome == nomeDaMusica).Select(f => f.FaixaId);
                 
-                //Recuperar quais clientes compraram a faixa de maior venda.
                 var query =
-                    from inf in contexto.ItemNotaFiscals
-                    where inf.FaixaId == ProdutoMaisVendido.FaixaId
-                    select new
-                    {
-                        NomeCliente = inf.NotaFiscal.Cliente.PrimeiroNome + " " + inf.NotaFiscal.Cliente.Sobrenome
-                    };
-                foreach (var cliente in query)
+                    from comprouItem in contexto.ItemNotaFiscals
+                    join comprouTambem in contexto.ItemNotaFiscals
+                        on comprouItem.NotaFiscalId equals comprouTambem.NotaFiscalId
+                    where faixaIds.Contains(comprouItem.FaixaId)
+                    && comprouItem.FaixaId != comprouTambem.FaixaId
+                    select comprouTambem;
+
+                foreach (var item in query)
                 {
-                    Console.WriteLine(cliente.NomeCliente);
+                    Console.WriteLine("{0}\t{1}",  item.NotaFiscalId, item.Faixa.Nome);
                 }
             }
             Console.ReadKey();
