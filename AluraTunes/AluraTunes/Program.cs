@@ -14,26 +14,28 @@ namespace AluraTunes
     {
         static void Main(string[] args)
         {
-            var nomeDaMusica = "Smells Like Teen Spirit";
             using (var contexto = new AluraTunesEntities())
             {
-                var faixaIds = contexto.Faixas.Where(f => f.Nome == nomeDaMusica).Select(f => f.FaixaId);
-                
-                var query =
-                    from comprouItem in contexto.ItemNotaFiscals
-                    join comprouTambem in contexto.ItemNotaFiscals
-                        on comprouItem.NotaFiscalId equals comprouTambem.NotaFiscalId
-                    where faixaIds.Contains(comprouItem.FaixaId)
-                    && comprouItem.FaixaId != comprouTambem.FaixaId
-                    select comprouTambem;
-
-                foreach (var item in query)
+                var mesAniversario = 1;
+                while (mesAniversario <= 12)
                 {
-                    Console.WriteLine("{0}\t{1}",  item.NotaFiscalId, item.Faixa.Nome);
+                    
+                    Console.WriteLine("Mês: {0}", mesAniversario);
+
+                    var query = (from f in contexto.Funcionarios
+                                where f.DataNascimento.Value.Month == mesAniversario
+                                orderby f.DataNascimento.Value.Month, f.DataNascimento.Value.Day 
+                                select f).ToList();//O método ToList() já compila a consulta, com isso a variável já guarda a resposta da consulta. 
+                                                   //Sem o ToList() a consulta só seria realizada quando o foreach iniciasse. Então a consulta com o ToList() é de execução imediata. 
+                    
+                    foreach (var f in query)
+                    {
+                        Console.WriteLine("{0:dd/MM}\t{1} {2}", f.DataNascimento, f.PrimeiroNome, f.Sobrenome);
+                    }
+                    mesAniversario++;
                 }
             }
             Console.ReadKey();
         }
-
     }
 }
