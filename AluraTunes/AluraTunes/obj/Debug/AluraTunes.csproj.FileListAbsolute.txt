@@ -12,3 +12,9 @@ D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\EntityFramework
 D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\EntityFramework.SqlServer.dll
 D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\EntityFramework.xml
 D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\EntityFramework.SqlServer.xml
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\zxing.dll
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\zxing.presentation.dll
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\zxing.pdb
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\zxing.xml
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\zxing.presentation.pdb
+D:\Leandro\Projetos\Estudos Linq\AluraTunes\AluraTunes\bin\Debug\zxing.presentation.xml
