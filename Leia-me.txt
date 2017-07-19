@@ -1,0 +1,1 @@
+A compilação dos estudos sobre LINQ foi realizada com Visual Studio 2013.
